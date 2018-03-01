@@ -11,10 +11,10 @@ public class GeoSegment
     }
     
     public String toString(){
-        String startSeg = "start: " + start.sLatitude + ", end: " + start.sLongitude; 
-        String endSeg = "start: " + end.sLatitude + ", end: " + end.sLongitude; 
+        String startSeg = "start:" + start.sLatitude + ", end:" + start.sLongitude; 
+        String endSeg = "start:" + end.sLatitude + ", end:" + end.sLongitude; 
         
-        String result = startSeg + " " + endSeg;
+        String result = startSeg + "\n" + endSeg;
         
         return result;
     }
