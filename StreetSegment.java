@@ -22,7 +22,7 @@ public class StreetSegment implements Comparable<StreetSegment>
         this.streetName = streetName;
         this.segment = segment;
         
-        attractionsOnThisSegment = new ArrayList<>();
+        attractionsOnThisSegment = new ArrayList<Address>();
     }
     
     public void addAttraction(String attraction, GeoCoord location){
@@ -39,5 +39,15 @@ public class StreetSegment implements Comparable<StreetSegment>
             return segment.end.compareTo(s.segment.end);
         
         return segment.start.compareTo(s.segment.start);
+    }
+    
+    public String toString(){
+        System.out.println("street name:" + streetName);
+        System.out.println("geoSegment:"  + "\n" + segment.toString());
+        System.out.println("number of attractions:" + attractionsOnThisSegment.size());
+        for(Address a : attractionsOnThisSegment)
+            System.out.println("attraction:" + a.attraction + ", location:" + a.location.toString()); 
+        
+        return "";
     }
 }
