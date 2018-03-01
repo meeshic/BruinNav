@@ -1,9 +1,10 @@
 public class GeoCoord implements Comparable<GeoCoord>
 {
     double latitude;
-	double longitude;
-	String sLatitude;
+    double longitude;
+    String sLatitude;
     String sLongitude;
+    
 	GeoCoord(String latitude, String longitude)
 	{
 		this.latitude = Double.parseDouble(latitude);
@@ -17,7 +18,6 @@ public class GeoCoord implements Comparable<GeoCoord>
         GeoCoord c = (GeoCoord) o;
         
         return (this.latitude == c.latitude) && (this.longitude == c.longitude);
-    
     }
     
     public int compareTo(GeoCoord c){
@@ -26,5 +26,9 @@ public class GeoCoord implements Comparable<GeoCoord>
         if(this.longitude < c.longitude) return -1;
         if(this.longitude > c.longitude) return +1;
         return 0;        
+    }
+    
+    public String toString(){
+        return sLatitude + ", " + sLongitude;
     }
 }
