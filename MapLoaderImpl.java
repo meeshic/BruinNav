@@ -27,7 +27,7 @@ class MapLoaderImpl{
                 for(int i=0; i<numAttr; i++){
                     String[] attr = scanner.nextLine().split("\\|");
                     String[] coord = attr[attr.length-1].split(",");
-                    streetSeg.addAttraction(attr[0], new GeoCoord(coord[0], coord[1]));
+                    streetSeg.attractionsOnThisSegment.add(new Address(attr[0], new GeoCoord(coord[0], coord[1])));
                     //streetSeg.toString();
                     //System.out.println("\n");
                 }
