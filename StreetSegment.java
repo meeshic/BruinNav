@@ -4,7 +4,7 @@ import java.util.ArrayList;
 class Address
 {
     String attraction;
-	GeoCoord location;
+    GeoCoord location;
     
     public Address(String attraction, GeoCoord location){
         this.attraction = attraction;
@@ -14,19 +14,15 @@ class Address
 
 public class StreetSegment implements Comparable<StreetSegment>
 {
-	private String streetName;
-	private GeoSegment segment;
-	private List<Address> attractionsOnThisSegment;
+	String streetName;
+	GeoSegment segment;
+	List<Address> attractionsOnThisSegment;
     
     StreetSegment(String streetName, GeoSegment segment){
         this.streetName = streetName;
         this.segment = segment;
         
         attractionsOnThisSegment = new ArrayList<Address>();
-    }
-    
-    public void addAttraction(String attraction, GeoCoord location){
-        attractionsOnThisSegment.add(new Address(attraction, location));
     }
     
     public boolean equals(Object streetSeg){
