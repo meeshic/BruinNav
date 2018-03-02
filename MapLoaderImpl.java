@@ -28,18 +28,16 @@ class MapLoaderImpl{
                     String[] attr = scanner.nextLine().split("\\|");
                     String[] coord = attr[attr.length-1].split(",");
                     streetSeg.addAttraction(attr[0], new GeoCoord(coord[0], coord[1]));
-                    streetSeg.toString();
-                    System.out.println("\n");
+                    //streetSeg.toString();
+                    //System.out.println("\n");
                 }
                 container.add(streetSeg);
             }
-            
             scanner.close();
         } catch(FileNotFoundException e){
             e.printStackTrace();
             return false;
         }
-        
         return true;
     }
     
@@ -47,9 +45,10 @@ class MapLoaderImpl{
         return container.size();
     }
     
-    // Retrieve StreetSegment associated with specified segment
-    // number 'segNum'
-    boolean getSegment(int segNum, StreetSegment seg){
-        return true;
+    // Retrieve StreetSegment associated with specified segment number 'segNum'
+    StreetSegment getSegment(int segNum){
+        if(container.size() == 0 || segNum > container.size()-1) return null;
+        
+        return container.get(segNum);
     }
 }
