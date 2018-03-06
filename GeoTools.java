@@ -8,12 +8,12 @@ public class GeoTools{
     static final double EARTH_RADIUS_KM = 6371.0;
 
     // This function converts decimal degrees to radians
-    double deg2rad(double deg) {
+    static double deg2rad(double deg) {
         return (deg * PI / 180);
     }
 
     //  This function converts radians to decimal degrees
-    double rad2deg(double rad) {
+    static double rad2deg(double rad) {
         return (rad * 180 / PI);
     }
 
@@ -26,7 +26,7 @@ public class GeoTools{
     * @param lon2d Longitude of the second point in degrees
     * @return The distance between the two points in kilometers
     */
-    double distanceEarthKM(GeoCoord g1, GeoCoord g2) {
+    static double distanceEarthKM(GeoCoord g1, GeoCoord g2) {
         double lat1r, lon1r, lat2r, lon2r, u, v;
         lat1r = deg2rad(g1.latitude);
         lon1r = deg2rad(g1.longitude);
@@ -37,13 +37,13 @@ public class GeoTools{
         return 2.0 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(u * u + Math.cos(lat1r) * Math.cos(lat2r) * v * v));
     }
 
-    double distanceEarthMiles(GeoCoord g1, GeoCoord g2) {
+    static double distanceEarthMiles(GeoCoord g1, GeoCoord g2) {
         double milesPerKm = 0.621371;
         return distanceEarthKM(g1, g2) * milesPerKm;
     }
 
 
-    double angleBetween2Lines(GeoSegment line1, GeoSegment line2)
+    static double angleBetween2Lines(GeoSegment line1, GeoSegment line2)
     {
         /*
         double angle1 = atan2(line1.start.latitude - line1.end.latitude, line1.start.longitude - line1.end.longitude);
@@ -60,7 +60,7 @@ public class GeoTools{
     }
 
 
-    double angleOfLine(GeoSegment line1)
+    static double angleOfLine(GeoSegment line1)
     {
         double angle = Math.atan2(line1.end.latitude - line1.start.latitude, line1.end.longitude - line1.start.longitude);
         double result = angle * 180 / 3.14;
