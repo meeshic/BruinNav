@@ -9,7 +9,6 @@ public class MyMap<K extends Comparable, V> {
         EntryBSTNode<K, V> right;
         EntryBSTNode<K, V> left;
         
-        
         EntryBSTNode(K key, V value){
             this.key = key;
             this.value = value;
@@ -24,7 +23,7 @@ public class MyMap<K extends Comparable, V> {
         public V getValue() {return value; };
         
         public void setValue(V value) { this.value = value; };
-    }
+    } //end EntryBSTNode
     
     private void add(EntryBSTNode<K, V> curr, EntryBSTNode<K, V> toAdd){
         // if key exists, update existing value to new value
@@ -47,12 +46,13 @@ public class MyMap<K extends Comparable, V> {
     void clear(){
         root = null;
         size = 0;
-    };
+    }
     
     // Return number of entry nodes in tree
-    int size(){ return size; };
+    int size(){ return size; }
     
     // Create an entry node and add to tree
+    // Acts as map.put(K, V)
     void associate(K key, V value){
         EntryBSTNode<K, V> entry = new EntryBSTNode<K, V>(key, value);
         
@@ -60,13 +60,13 @@ public class MyMap<K extends Comparable, V> {
         else add(root, entry);
         
         size++;
-    };
+    }
     
     // Get entry node with desired key and return associated value
     // Otherwise, return NULL
     V find(K key){
         return findEntry(root, key);
-    };
+    }
     
     private V findEntry(EntryBSTNode<K, V> curr, K key){
         if(curr == null) return null;
