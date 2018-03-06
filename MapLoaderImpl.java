@@ -15,21 +15,21 @@ class MapLoaderImpl{
             while(scanner.hasNextLine()){
                 String streetName = scanner.nextLine();
                 
-                String[] geo = scanner.nextLine().split("\\d ");
+                // fix strange map geo format
+                String geoSegFormat = scanner.nextLine().replace(", ", ",");
+                String[] geo = geoSegFormat.split(" ");
                 String[] startCoord = geo[0].split(",");
                 String[] endCoord = geo[1].split(",");
                 GeoSegment seg = new GeoSegment(new GeoCoord(startCoord[0], startCoord[1]),new GeoCoord(endCoord[0], endCoord[1]));
                 
                 StreetSegment streetSeg = new StreetSegment(streetName, seg);
-                
+
                 // add attractions
                 int numAttr = Integer.parseInt(scanner.nextLine());
                 for(int i=0; i<numAttr; i++){
                     String[] attr = scanner.nextLine().split("\\|");
                     String[] coord = attr[attr.length-1].split(",");
                     streetSeg.attractionsOnThisSegment.add(new Address(attr[0], new GeoCoord(coord[0], coord[1])));
-                    //streetSeg.toString();
-                    //System.out.println("\n");
                 }
                 container.add(streetSeg);
             }
