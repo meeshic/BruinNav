@@ -1,12 +1,12 @@
 class NavSegment
 {
-	enum NAV_COMMAND { invalid, turn, proceed };
+	static enum NAV_COMMAND { invalid, turn, proceed };
 
-	NAV_COMMAND		m_command;	    // turn left, turn right, proceed
-	String          m_streetName;	// Westwood Blvd
-	String          m_direction;	// "left" for turn or "northeast" for proceed
-	double			m_distance;		// 3.2 //KM
-	GeoSegment		m_gs;
+	private NAV_COMMAND		m_command;	    // turn left, turn right, proceed
+	private String          m_streetName;	// Westwood Blvd
+	private String          m_direction;	// "left" for turn or "northeast" for proceed
+	private double			m_distance;		// 3.2 //KM
+	private GeoSegment		m_gs;
 
 	NavSegment()
 	{
