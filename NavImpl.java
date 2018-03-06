@@ -38,6 +38,16 @@ class NavImpl{
         }
     }
     
+    private class coordStreet {
+        public GeoCoord gc;
+        public String streetName;
+        
+        coordStreet(GeoCoord gc, String streetName){
+            this.gc = gc;
+            this.streetName = streetName;
+        }
+    }
+    
     // initialize internal data structures and AttractionMapper or SegmentMapper variables
     boolean loadMapData(String mapFile){
         mapLoad.load(mapFile);
@@ -53,9 +63,9 @@ class NavImpl{
         PriorityQueue<locationCost> queue = new PriorityQueue<locationCost>();
         MyMap<GeoCoord, Double> costMap = new MyMap<GeoCoord, Double>();
         // reached key from (<-) value
-        MyMap<GeoCoord, GeoCoord> fromMap = new MyMap<GeoCoord, GeoCoord>();
+        MyMap<GeoCoord, coordStreet> fromMap = new MyMap<GeoCoord, coordStreet>();
         // associate GeoSegments with street name
-        MyMap<GeoSegment, String> geoStreet = new MyMap<GeoSegment, String>();
+        //MyMap<GeoSegment, String> geoStreet = new MyMap<GeoSegment, String>();
         
         
         GeoCoord startAttrCoord = am.getGeoCoordForAttraction(startLocation);
@@ -86,10 +96,8 @@ class NavImpl{
         queue.add(new locationCost(streetEndCoord, gEnd, hEnd));        
         costMap.associate(streetStartCoord, gStart+hStart);
         costMap.associate(streetEndCoord, gEnd+hEnd);
-        fromMap.associate(streetStartCoord, startAttrCoord);
-        fromMap.associate(streetEndCoord, startAttrCoord);
-        geoStreet.associate(new GeoSegment(startAttrCoord, streetStartCoord), streetSeg.streetName);
-        geoStreet.associate(new GeoSegment(startAttrCoord, streetEndCoord), streetSeg.streetName);
+        fromMap.associate(streetStartCoord, new coordStreet(startAttrCoord, streetSeg.streetName));
+        fromMap.associate(streetEndCoord, new coordStreet(startAttrCoord, streetSeg.streetName));
 
         // A* search algorithm
         while(!queue.isEmpty()){
@@ -99,8 +107,8 @@ class NavImpl{
             
             for(StreetSegment currStreet : sm.lookUpGeoCoord(from.gc)){                    
                 if(isEndAttraction(currStreet, endAttrCoord)){
-                    fromMap.associate(endAttrCoord, from.gc);
-                    geoStreet.associate(new GeoSegment(from.gc, endAttrCoord), currStreet.streetName);
+                    fromMap.associate(endAttrCoord, new coordStreet(from.gc, currStreet.streetName));
+                    //geoStreet.associate(new GeoSegment(from.gc, endAttrCoord), currStreet.streetName);
                     queue.add(new locationCost(endAttrCoord, from.g, 0));
                     break;
                 }                
@@ -116,15 +124,15 @@ class NavImpl{
                 if(fromMap.find(streetStartCoord) == null || (gStart+hStart) < costMap.find(streetStartCoord)){
                     queue.add(new locationCost(streetStartCoord, gStart, hStart));
                     costMap.associate(streetStartCoord, gStart+hStart);
-                    fromMap.associate(streetStartCoord, from.gc);
-                    geoStreet.associate(new GeoSegment(from.gc, streetStartCoord), currStreet.streetName);
+                    fromMap.associate(streetStartCoord, new coordStreet(from.gc, currStreet.streetName));
+                    //geoStreet.associate(new GeoSegment(from.gc, streetStartCoord), currStreet.streetName);
                 }                
                 
                 if(fromMap.find(streetEndCoord) == null || (gEnd+hEnd) < costMap.find(streetEndCoord)){
                     queue.add(new locationCost(streetEndCoord, gEnd, hEnd));
                     costMap.associate(streetEndCoord, gEnd+hEnd);
-                    fromMap.associate(streetEndCoord, from.gc);
-                    geoStreet.associate(new GeoSegment(from.gc, streetEndCoord), currStreet.streetName);
+                    fromMap.associate(streetEndCoord, new coordStreet(from.gc, currStreet.streetName));
+                    //geoStreet.associate(new GeoSegment(from.gc, streetEndCoord), currStreet.streetName);
                 }
             }
         }
@@ -135,16 +143,22 @@ class NavImpl{
         directions = new ArrayList<NavSegment>();
         
         // create first NavSegment
-        GeoCoord toCoord = fromMap.find(endAttrCoord);
+        coordStreet to = fromMap.find(endAttrCoord);
+        //GeoCoord toCoord = fromMap.find(endAttrCoord);
+        GeoCoord toCoord = to.gc;
         GeoSegment nextGeoSeg = new GeoSegment(toCoord, endAttrCoord);
-        String nextStreet = sm.lookUpGeoCoord(endAttrCoord).get(0).streetName;
+        //String nextStreet = sm.lookUpGeoCoord(endAttrCoord).get(0).streetName;
+        String nextStreet = to.streetName;
         NavSegment currNav = createProceedSeg(nextGeoSeg, nextStreet);
         directions.add(currNav);
         
         while(!currNav.getSegment().start.equals(startAttrCoord)){
-            GeoCoord fromCoord = fromMap.find(toCoord);
+            //GeoCoord fromCoord = fromMap.find(toCoord);
+            coordStreet from = fromMap.find(toCoord);
+            GeoCoord fromCoord = from.gc;
             GeoSegment prevGeoSeg = new GeoSegment(fromCoord, toCoord);
-            String prevStreet = geoStreet.find(prevGeoSeg);
+            //String prevStreet = geoStreet.find(prevGeoSeg);
+            String prevStreet = from.streetName;
             
             // turn
             if(!prevStreet.equals(nextStreet)){
