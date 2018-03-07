@@ -1,6 +1,7 @@
 # BruinNav
 
 Note: Project reformatted C++ -> Java
+
 Geospatial data from Open Street Maps (OSM): https://www.openstreetmap.org
 
 Simple navigation system that loads and indexes OSM data to build a turn-by-turn navigation system.
